@@ -28,9 +28,6 @@ install -pm644 %{SOURCE3} %{buildroot}%{_unitdir}
 install -pDm640 %{name}.conf %{buildroot}%{_sysconfdir}/%{name}.conf
 install -pDm640 sentinel.conf %{buildroot}%{_sysconfdir}/%{name}-sentinel.conf
 
-%check
-make test
-
 %files
 %license COPYING
 %doc BUGS README.md 00-RELEASENOTES MANIFESTO CONTRIBUTING
