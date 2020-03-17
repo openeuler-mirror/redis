@@ -1,6 +1,6 @@
 Name:           redis
 Version:        4.0.11
-Release:        4
+Release:        5
 Summary:        A persistent key-value database
 License:        BSD and MIT
 URL:            https://redis.io
@@ -10,9 +10,9 @@ Source2:        %{name}-sentinel.service
 Source3:        %{name}.service
 
 #CVE fix
-Patch0001:      CVE-2019-10192.patch
+Patch0001:      CVE-2019-10192-1.patch
 #Optimization of the above problem
-Patch0002:      cve-2019-10192.patch
+Patch0002:      CVE-2019-10192-2.patch
 
 %description
 Redis is an advanced key-value store. It is often referred to as a dattructure server since keys can contain strings, hashes
@@ -60,6 +60,9 @@ install -pDm640 sentinel.conf %{buildroot}%{_sysconfdir}/%{name}-sentinel.conf
 %{_unitdir}/%{name}-sentinel.service
 
 %changelog
+* Tue Mar 17 2020 wangye <wangye54@huawei.com> - 4.0.11-5
+- CVE name fix
+
 * Tue Mar 17 2020 wangye <wangye54@huawei.com> - 4.0.11-4
 - CVE fix
 
