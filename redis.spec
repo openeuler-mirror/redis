@@ -1,6 +1,6 @@
 Name:           redis
 Version:        4.0.11
-Release:        5
+Release:        6
 Summary:        A persistent key-value database
 License:        BSD and MIT
 URL:            https://redis.io
@@ -29,6 +29,10 @@ make
 
 %install
 %make_install PREFIX=%{buildroot}%{_prefix}
+install -d %{buildroot}%{_sharedstatedir}/%{name}
+install -d %{buildroot}%{_localstatedir}/log/%{name}
+install -d %{buildroot}%{_localstatedir}/run/%{name}
+install -d %{buildroot}%{_libdir}/%{name}/modules
 install -pDm644 %{SOURCE1} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 mkdir -p %{buildroot}%{_unitdir}
 install -pm644 %{SOURCE2} %{buildroot}%{_unitdir}
@@ -55,11 +59,18 @@ install -pDm640 sentinel.conf %{buildroot}%{_sysconfdir}/%{name}-sentinel.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %attr(0640, redis, root) %config(noreplace) %{_sysconfdir}/%{name}.conf
 %attr(0640, redis, root) %config(noreplace) %{_sysconfdir}/%{name}-sentinel.conf
+%dir %attr(0750, redis, redis) %{_libdir}/%{name}
+%dir %attr(0750, redis, redis) %{_libdir}/%{name}/modules
+%dir %attr(0750, redis, redis) %{_sharedstatedir}/%{name}
+%dir %attr(0750, redis, redis) %{_localstatedir}/log/%{name}
 %{_bindir}/%{name}-*
 %{_unitdir}/%{name}.service
 %{_unitdir}/%{name}-sentinel.service
 
 %changelog
+* Mon Jun 01 2020 huanghaitao <huanghaitao8@huawei.com> - 4.0.11-6
+- Resolve service startup failure
+ 
 * Tue Mar 17 2020 wangye <wangye54@huawei.com> - 4.0.11-5
 - CVE name fix
 
