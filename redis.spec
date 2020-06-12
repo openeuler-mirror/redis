@@ -1,6 +1,6 @@
 Name:           redis
 Version:        4.0.11
-Release:        6
+Release:        7
 Summary:        A persistent key-value database
 License:        BSD and MIT
 URL:            https://redis.io
@@ -40,6 +40,14 @@ install -pm644 %{SOURCE3} %{buildroot}%{_unitdir}
 install -pDm640 %{name}.conf %{buildroot}%{_sysconfdir}/%{name}.conf
 install -pDm640 sentinel.conf %{buildroot}%{_sysconfdir}/%{name}-sentinel.conf
 
+%pre
+getent group %{name} &> /dev/null || \
+groupadd -r %{name} &> /dev/null
+getent passwd %{name} &> /dev/null || \
+useradd -r -g %{name} -d %{_sharedstatedir}/%{name} -s /sbin/nologin \
+-c 'Redis Database Server' %{name} &> /dev/null
+exit 0
+
 %post
 %systemd_post %{name}.service
 %systemd_post %{name}-sentinel.service
@@ -68,6 +76,12 @@ install -pDm640 sentinel.conf %{buildroot}%{_sysconfdir}/%{name}-sentinel.conf
 %{_unitdir}/%{name}-sentinel.service
 
 %changelog
+* Fri Jun 12 2020 panchenbo <panchenbo@uniontech.com> - 4.0.11-7
+- Type:bugfix
+- ID: NA
+- SUG: restart
+- DESC: Resolve service startup failure whthout no %pre
+
 * Mon Jun 01 2020 huanghaitao <huanghaitao8@huawei.com> - 4.0.11-6
 - Resolve service startup failure
  
