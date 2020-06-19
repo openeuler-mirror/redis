@@ -1,6 +1,6 @@
 Name:           redis
 Version:        4.0.11
-Release:        7
+Release:        8
 Summary:        A persistent key-value database
 License:        BSD and MIT
 URL:            https://redis.io
@@ -13,6 +13,14 @@ Source3:        %{name}.service
 Patch0001:      CVE-2019-10192-1.patch
 #Optimization of the above problem
 Patch0002:      CVE-2019-10192-2.patch
+
+BuildRequires:     systemd
+Requires:          /bin/awk
+Requires:          logrotate
+Requires(pre):     shadow-utils
+Requires(post):    systemd
+Requires(preun):   systemd
+Requires(postun):  systemd
 
 %description
 Redis is an advanced key-value store. It is often referred to as a dattructure server since keys can contain strings, hashes
@@ -76,6 +84,9 @@ exit 0
 %{_unitdir}/%{name}-sentinel.service
 
 %changelog
+* Fri Jun 19 2020 Captain Wei <captain.a.wei@gmail.com> - 4.0.11-8
+- Add some dependency package in building and running phase
+
 * Fri Jun 12 2020 panchenbo <panchenbo@uniontech.com> - 4.0.11-7
 - Type:bugfix
 - ID: NA
