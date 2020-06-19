@@ -1,6 +1,6 @@
 Name:           redis
 Version:        4.0.11
-Release:        6
+Release:        8
 Summary:        A persistent key-value database
 License:        BSD and MIT
 URL:            https://redis.io
@@ -13,6 +13,14 @@ Source3:        %{name}.service
 Patch0001:      CVE-2019-10192-1.patch
 #Optimization of the above problem
 Patch0002:      CVE-2019-10192-2.patch
+
+BuildRequires:     systemd
+Requires:          /bin/awk
+Requires:          logrotate
+Requires(pre):     shadow-utils
+Requires(post):    systemd
+Requires(preun):   systemd
+Requires(postun):  systemd
 
 %description
 Redis is an advanced key-value store. It is often referred to as a dattructure server since keys can contain strings, hashes
@@ -39,6 +47,14 @@ install -pm644 %{SOURCE2} %{buildroot}%{_unitdir}
 install -pm644 %{SOURCE3} %{buildroot}%{_unitdir}
 install -pDm640 %{name}.conf %{buildroot}%{_sysconfdir}/%{name}.conf
 install -pDm640 sentinel.conf %{buildroot}%{_sysconfdir}/%{name}-sentinel.conf
+
+%pre
+getent group %{name} &> /dev/null || \
+groupadd -r %{name} &> /dev/null
+getent passwd %{name} &> /dev/null || \
+useradd -r -g %{name} -d %{_sharedstatedir}/%{name} -s /sbin/nologin \
+-c 'Redis Database Server' %{name} &> /dev/null
+exit 0
 
 %post
 %systemd_post %{name}.service
@@ -68,6 +84,15 @@ install -pDm640 sentinel.conf %{buildroot}%{_sysconfdir}/%{name}-sentinel.conf
 %{_unitdir}/%{name}-sentinel.service
 
 %changelog
+* Fri Jun 19 2020 Captain Wei <captain.a.wei@gmail.com> - 4.0.11-8
+- Add some dependency package in building and running phase
+
+* Fri Jun 12 2020 panchenbo <panchenbo@uniontech.com> - 4.0.11-7
+- Type:bugfix
+- ID: NA
+- SUG: restart
+- DESC: Resolve service startup failure whthout no %pre
+
 * Mon Jun 01 2020 huanghaitao <huanghaitao8@huawei.com> - 4.0.11-6
 - Resolve service startup failure
  
