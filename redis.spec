@@ -1,6 +1,6 @@
 Name:           redis
 Version:        4.0.11
-Release:        9
+Release:        10
 Summary:        A persistent key-value database
 License:        BSD and MIT
 URL:            https://redis.io
@@ -14,6 +14,9 @@ Patch0001:      CVE-2019-10192-1.patch
 #Optimization of the above problem
 Patch0002:      CVE-2019-10192-2.patch
 Patch0003:      CVE-2020-14147.patch 
+Patch0004:      improved-HyperLogLog-cardinality-estimation.patch
+Patch0005:      Aesthetic-changes-to-PR.patch
+Patch0006:      CVE-2019-10193.patch
 
 BuildRequires:     systemd
 Requires:          /bin/awk
@@ -85,6 +88,9 @@ exit 0
 %{_unitdir}/%{name}-sentinel.service
 
 %changelog
+* Mon Sep 21 2020 wangyue <wangyue92@huawei.com> - 4.0.11-10
+- fix CVE-2019-10193
+
 * Mon Jul 20 2020 wangxiao <wangxiao654@huawei.com> - 4.0.11-9
 - fix CVE-2020-14147
 
