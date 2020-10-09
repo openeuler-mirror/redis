@@ -1,0 +1,13 @@
+diff --git a/deps/Makefile b/deps/Makefile
+index e148a33..f1855f3 100644
+--- a/deps/Makefile
++++ b/deps/Makefile
+@@ -77,7 +77,7 @@ JEMALLOC_LDFLAGS= $(LDFLAGS)
+ 
+ jemalloc: .make-prerequisites
+ 	@printf '%b %b\n' $(MAKECOLOR)MAKE$(ENDCOLOR) $(BINCOLOR)$@$(ENDCOLOR)
+-	cd jemalloc && ./configure --with-lg-quantum=3 --with-jemalloc-prefix=je_ --enable-cc-silence CFLAGS="$(JEMALLOC_CFLAGS)" LDFLAGS="$(JEMALLOC_LDFLAGS)"
++	cd jemalloc && ./configure --with-lg-quantum=3 --with-jemalloc-prefix=je_ --enable-cc-silence CFLAGS="$(JEMALLOC_CFLAGS)" LDFLAGS="$(JEMALLOC_LDFLAGS)" --with-lg-page=16
+ 	cd jemalloc && $(MAKE) CFLAGS="$(JEMALLOC_CFLAGS)" LDFLAGS="$(JEMALLOC_LDFLAGS)" lib/libjemalloc.a
+ 
+ .PHONY: jemalloc
