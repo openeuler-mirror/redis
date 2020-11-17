@@ -1,0 +1,62 @@
+From 1b9b76419cf0b6c2ff73bb0d02c8c04896bdde20 Mon Sep 17 00:00:00 2001
+From: yangyanchao <yangyanchao6@huawei.com>
+Date: Wed, 11 Nov 2020 17:49:37 +0800
+Subject: [PATCH] jemalloc_support_riscv
+
+---
+ deps/jemalloc/config.guess                                     | 3 +++
+ deps/jemalloc/config.sub                                       | 2 ++
+ deps/jemalloc/include/jemalloc/internal/jemalloc_internal.h.in | 3 +++
+ 3 files changed, 8 insertions(+)
+
+diff --git a/deps/jemalloc/config.guess b/deps/jemalloc/config.guess
+index 1f5c50c..e5a8c92 100755
+--- a/deps/jemalloc/config.guess
++++ b/deps/jemalloc/config.guess
+@@ -1001,6 +1001,9 @@ EOF
+     ppcle:Linux:*:*)
+ 	echo powerpcle-unknown-linux-${LIBC}
+ 	exit ;;
++    riscv32:Linux:*:* | riscv64:Linux:*:*)
++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
++	exit ;;
+     s390:Linux:*:* | s390x:Linux:*:*)
+ 	echo ${UNAME_MACHINE}-ibm-linux-${LIBC}
+ 	exit ;;
+diff --git a/deps/jemalloc/config.sub b/deps/jemalloc/config.sub
+index 0ccff77..76df7ee 100755
+--- a/deps/jemalloc/config.sub
++++ b/deps/jemalloc/config.sub
+@@ -302,6 +302,7 @@ case $basic_machine in
+ 	| pdp10 | pdp11 | pj | pjl \
+ 	| powerpc | powerpc64 | powerpc64le | powerpcle \
+ 	| pyramid \
++	| riscv32 | riscv64 \
+ 	| rl78 | rx \
+ 	| score \
+ 	| sh | sh[1234] | sh[24]a | sh[24]aeb | sh[23]e | sh[34]eb | sheb | shbe | shle | sh[1234]le | sh3ele \
+@@ -423,6 +424,7 @@ case $basic_machine in
+ 	| pdp10-* | pdp11-* | pj-* | pjl-* | pn-* | power-* \
+ 	| powerpc-* | powerpc64-* | powerpc64le-* | powerpcle-* \
+ 	| pyramid-* \
++	| riscv32-* | riscv64-* \
+ 	| rl78-* | romp-* | rs6000-* | rx-* \
+ 	| sh-* | sh[1234]-* | sh[24]a-* | sh[24]aeb-* | sh[23]e-* | sh[34]eb-* | sheb-* | shbe-* \
+ 	| shle-* | sh[1234]le-* | sh3ele-* | sh64-* | sh64le-* \
+diff --git a/deps/jemalloc/include/jemalloc/internal/jemalloc_internal.h.in b/deps/jemalloc/include/jemalloc/internal/jemalloc_internal.h.in
+index 8536a3e..cfbe169 100644
+--- a/deps/jemalloc/include/jemalloc/internal/jemalloc_internal.h.in
++++ b/deps/jemalloc/include/jemalloc/internal/jemalloc_internal.h.in
+@@ -256,6 +256,9 @@ typedef unsigned szind_t;
+ #  ifdef __powerpc__
+ #    define LG_QUANTUM		4
+ #  endif
++#  if defined(__riscv) || defined(__riscv__)
++#    define LQ_QUANTUM          4
++#  endif
+ #  ifdef __s390__
+ #    define LG_QUANTUM		4
+ #  endif
+-- 
+1.8.3.1
+
