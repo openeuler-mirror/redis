@@ -1,6 +1,6 @@
 Name:           redis
 Version:        4.0.11
-Release:        12
+Release:        13
 Summary:        A persistent key-value database
 License:        BSD and MIT
 URL:            https://redis.io
@@ -21,6 +21,7 @@ Patch0006:      CVE-2019-10193.patch
 Patch0007:      modify-aarch64-architecture-jemalloc-page-size-from-4k-to-64k.patch
 %endif
 Patch0008:      huawei-deps-jemalloc-support-riscv.patch
+Patch0009:      CVE-2021-21309.patch
 BuildRequires:     systemd
 Requires:          /bin/awk
 Requires:          logrotate
@@ -91,6 +92,9 @@ exit 0
 %{_unitdir}/%{name}-sentinel.service
 
 %changelog
+* Thu Mar 11 2021 wangxiao <wangxiao65@huawei.com> - 4.0.11-13
+- Fix CVE-2021-21309
+
 * Wed Nov 11 2020 yangyanchao <yangyanchao6@huawei.com> - 4.0.11-12
 - enable dependency package jemalloc of redis to support riscv 
 
