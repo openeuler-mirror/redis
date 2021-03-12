@@ -1,6 +1,6 @@
 Name:           redis
 Version:        4.0.11
-Release:        11
+Release:        12
 Summary:        A persistent key-value database
 License:        BSD and MIT
 URL:            https://redis.io
@@ -20,7 +20,7 @@ Patch0006:      CVE-2019-10193.patch
 %ifarch aarch64
 Patch0007:      modify-aarch64-architecture-jemalloc-page-size-from-4k-to-64k.patch
 %endif
-
+Patch0008:      CVE-2021-21309.patch
 BuildRequires:     systemd
 Requires:          /bin/awk
 Requires:          logrotate
@@ -91,7 +91,10 @@ exit 0
 %{_unitdir}/%{name}-sentinel.service
 
 %changelog
-* Wed Sep 30 16:00:20 CST 2020 Jiapeng Zhang <zhangjiapeng9@huawei.com> - 4.0.11-11
+* Fri Mar 12 2021 wangxiao <wangxiao65@huawei.com> - 4.0.11-12
+- Fix CVE-2021-21309
+
+* Wed Sep 30 2020 Jiapeng Zhang <zhangjiapeng9@huawei.com> - 4.0.11-11
 - modify aarch64 architecture jemalloc page size from 4k to 64k
 
 * Mon Sep 21 2020 wangyue <wangyue92@huawei.com> - 4.0.11-10
