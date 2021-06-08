@@ -1,6 +1,6 @@
 Name:           redis
 Version:        4.0.11
-Release:        14
+Release:        15
 Summary:        A persistent key-value database
 License:        BSD and MIT
 URL:            https://redis.io
@@ -20,6 +20,7 @@ Patch0006:      CVE-2019-10193.patch
 Patch0007:      modify-aarch64-architecture-jemalloc-page-size-from-4k-to-64k.patch
 Patch0008:      CVE-2021-21309.patch
 Patch0009:      CVE-2021-3470.patch
+Patch0010:      CVE-2021-29478.patch
 
 BuildRequires:     systemd
 Requires:          /bin/awk
@@ -46,6 +47,7 @@ Redis is an advanced key-value store. It is often referred to as a dattructure s
 %endif
 %patch0008 -p1
 %patch0009 -p1
+%patch0010 -p1
 
 sed -i -e 's|^logfile .*$|logfile /var/log/redis/redis.log|g' redis.conf
 sed -i -e '$ alogfile /var/log/redis/sentinel.log' sentinel.conf
@@ -103,6 +105,9 @@ exit 0
 %{_unitdir}/%{name}-sentinel.service
 
 %changelog
+* Tue Jun 08 2021 wangyue <wangyue92@huawei.com> - 4.0.11-15
+- Fix CVE-2021-29478
+
 * Wed Apr 07 2021 wangyue <wangyue92@huawei.com> - 4.0.11-14
 - Fix CVE-2021-3470
 
